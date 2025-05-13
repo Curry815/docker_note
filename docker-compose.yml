@@ -1,0 +1,29 @@
+# 配置服务
+services:
+  # Nginx
+  nginx:
+    # 镜像
+    image: nginx:alpine
+    # 端口
+    ports:
+      # 本地对外端口80，镜像的80
+      - '80:80'
+      - '443:443'
+    # 数据卷 相当于数据库存储
+    volumes:
+      # Nginx 配置文件
+      # 当前对服务器下存放的nginx配置文件的位置
+      # SSL 证书
+      # Nuxt 静态资源 服务器下的html文件夹就是public静态资源
+      # JSD Client项目资源映射
+    depends_on:
+      - nodejs
+  # Node.js
+  nodejs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+    working_dir: /app
+    restart: always
